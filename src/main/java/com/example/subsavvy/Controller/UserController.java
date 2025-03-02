@@ -1,5 +1,6 @@
 package com.example.subsavvy.Controller;
 
+import ch.qos.logback.classic.encoder.JsonEncoder;
 import com.example.subsavvy.Data.Subscription;
 import com.example.subsavvy.Data.User;
 import com.example.subsavvy.Service.UserService;
@@ -7,6 +8,7 @@ import com.example.subsavvy.dto.SubscriptionDto;
 import com.example.subsavvy.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
@@ -15,8 +17,14 @@ import java.util.UUID;
 @RequestMapping("/user")
 public class UserController {
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
     private UserService userService;
+
+    public UserController(PasswordEncoder passwordEncoder){
+        this.passwordEncoder = passwordEncoder;
+    }
 
     // Endpoint pour récupérer tous les abonnements d'un utilisateur
     @GetMapping("/{userId}/subscriptions")
@@ -58,8 +66,10 @@ public class UserController {
     // Endpoint pour ajouter un utilisateur
     @PostMapping
     public User addUser(@RequestBody UserDto user) {
-        return userService.addUser(user.getName(), user.getMail(), user.getPassword(), user.getProfil_picture(), user.isAdmin());
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        return userService.addUser(user.getName(), user.getMail(), encodedPassword, user.getProfil_picture(), user.isAdmin());
     }
+
 
     // Endpoint pour récupérer tous les utilisateurs
     @GetMapping
