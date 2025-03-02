@@ -55,31 +55,31 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    // Endpoint pour ajouter un utilisateur (déjà existant dans votre code)
+    // Endpoint pour ajouter un utilisateur
     @PostMapping
     public User addUser(@RequestBody UserDto user) {
         return userService.addUser(user.getName(), user.getMail(), user.getPassword(), user.getProfil_picture(), user.isAdmin());
     }
 
-    // Endpoint pour récupérer tous les utilisateurs (déjà existant dans votre code)
+    // Endpoint pour récupérer tous les utilisateurs
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    // Endpoint pour récupérer un utilisateur par ID (déjà existant dans votre code)
+    // Endpoint pour récupérer un utilisateur par ID
     @GetMapping("/{id}")
     public User getUserById(@PathVariable UUID id) {
         return userService.getUserById(id);
     }
 
-    // Endpoint pour mettre à jour un utilisateur (déjà existant dans votre code)
+    // Endpoint pour mettre à jour un utilisateur
     @PutMapping("/{id}")
     public User updateUser(@PathVariable UUID id, @RequestBody User updatedUser) {
         return userService.updateUser(id, updatedUser.getName(), updatedUser.getMail(), updatedUser.getPassword());
     }
 
-    // Endpoint pour supprimer un utilisateur (déjà existant dans votre code)
+    // Endpoint pour supprimer un utilisateur
     @DeleteMapping("/{user}")
     public void deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
