@@ -44,8 +44,8 @@ public class UserService {
     // Méthode pour récupérer tous les abonnements associés à un utilisateur
     public List<Subscription> getSubscriptionsForUser(UUID userId) {
         String url = subscriptionServiceUrl + "/" + userId;  // Construire l'URL pour l'API Subscription
-        ResponseEntity<Subscription[]> response = restTemplate.exchange(url, HttpMethod.GET, null, Subscription[].class);
-        return Arrays.asList(response.getBody());  // Retourner la liste des abonnements
+        Subscription[] response = restTemplate.getForObject(url, Subscription[].class);
+        return Arrays.asList(response);  // Retourner la liste des abonnements
     }
 
     // Méthode pour ajouter un abonnement pour un utilisateur
